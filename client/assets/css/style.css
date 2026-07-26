@@ -1,0 +1,232 @@
+/* ==========================================================
+   Fetchr — Universal File Downloader
+   Custom styles layered on top of Tailwind utilities.
+   ========================================================== */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #05060f;
+}
+
+/* ---------- Animated aurora background ---------- */
+.aurora {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.blob {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(90px);
+  opacity: 0.55;
+  will-change: transform;
+}
+
+.blob-a {
+  width: 42vw;
+  height: 42vw;
+  background: radial-gradient(circle at 30% 30%, #8b5cf6, transparent 70%);
+  top: -10%;
+  left: -10%;
+  animation: drift-a 22s ease-in-out infinite alternate;
+}
+
+.blob-b {
+  width: 38vw;
+  height: 38vw;
+  background: radial-gradient(circle at 60% 40%, #22d3ee, transparent 70%);
+  bottom: -15%;
+  right: -10%;
+  animation: drift-b 26s ease-in-out infinite alternate;
+}
+
+.blob-c {
+  width: 30vw;
+  height: 30vw;
+  background: radial-gradient(circle at 50% 50%, #ec4899, transparent 70%);
+  top: 40%;
+  left: 35%;
+  animation: drift-c 30s ease-in-out infinite alternate;
+  opacity: 0.35;
+}
+
+.grid-overlay {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 20%, black 40%, transparent 100%);
+}
+
+@keyframes drift-a {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(8vw, 10vh) scale(1.15); }
+}
+@keyframes drift-b {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(-6vw, -8vh) scale(1.1); }
+}
+@keyframes drift-c {
+  from { transform: translate(-5vw, 0) scale(0.9); }
+  to   { transform: translate(5vw, 6vh) scale(1.05); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blob { animation: none !important; }
+  html { scroll-behavior: auto; }
+}
+
+/* ---------- Glassmorphism panels ---------- */
+.glass {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+}
+
+/* ---------- Action buttons ---------- */
+.action-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 8px 4px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+  color: rgb(203 213 225);
+  font-size: 10px;
+  font-weight: 500;
+  transition: all 0.15s ease;
+}
+.action-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.18);
+  color: white;
+}
+.action-btn:active {
+  transform: scale(0.95);
+}
+
+/* ---------- Stat tiles inside info card ---------- */
+.stat-tile {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  padding: 8px 10px;
+}
+.stat-tile dt {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgb(100 116 139);
+  font-family: 'JetBrains Mono', monospace;
+}
+.stat-tile dd {
+  font-size: 13px;
+  font-weight: 600;
+  color: rgb(226 232 240);
+  margin-top: 2px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* ---------- Circular ring progress (signature element) ---------- */
+.ring-svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+.ring-track {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.08);
+  stroke-width: 4;
+}
+.ring-fill {
+  fill: none;
+  stroke: url(#ring-gradient);
+  stroke: #8b5cf6;
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-dasharray: 150.8; /* 2 * PI * r(24) */
+  stroke-dashoffset: 150.8;
+  transition: stroke-dashoffset 0.25s ease;
+}
+.ring-fill.spin {
+  animation: ring-spin 1.1s linear infinite;
+  stroke-dashoffset: 110;
+}
+@keyframes ring-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ---------- Toasts ---------- */
+.toast {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  max-width: 22rem;
+  padding: 12px 14px;
+  border-radius: 14px;
+  font-size: 13px;
+  line-height: 1.4;
+  color: white;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  animation: toast-in 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.toast.leaving {
+  animation: toast-out 0.2s ease forwards;
+}
+.toast-success { background: rgba(16, 185, 129, 0.18); }
+.toast-error { background: rgba(244, 63, 94, 0.18); }
+.toast-info { background: rgba(99, 102, 241, 0.18); }
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(-8px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes toast-out {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(-8px); }
+}
+
+/* ---------- History items ---------- */
+.history-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 10px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+.history-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* ---------- Scrollbar (webkit) ---------- */
+#history-list::-webkit-scrollbar { width: 6px; }
+#history-list::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+}
+
+/* ---------- Focus visibility (accessibility) ---------- */
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid #22d3ee;
+  outline-offset: 2px;
+}
